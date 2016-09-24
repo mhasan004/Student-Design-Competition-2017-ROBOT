@@ -1,4 +1,4 @@
-/* 
+/* Comments: 
 Information Travel: Transmitter (our controller) --> Reciever onboard robot --> Arduino --> ESC --> Motors
 
 Signal Ranges (this part is for me): 
@@ -6,3 +6,15 @@ Controller values to arduino (0-255 potentiometer) -> Arduino remaps from 0-255 
 PWM ranges from 1000ms-2000ms for hobby servos
 PWM: analogRead/Write(0-255)
 Potentiometer:(0-1023)
+*/
+
+
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
