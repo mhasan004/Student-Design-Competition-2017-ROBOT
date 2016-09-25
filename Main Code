@@ -1,8 +1,11 @@
 /* Comments: 
-Information Travel: Transmitter (our controller) --> Reciever onboard robot --> (Digital)Arduino(PWM) --> ESC --> Motors
+                                                    Information Flow: 
+Transmitter (the controller) --> Reciever (will be on robot) --> (Digital pin)Arduino(PWM pin) --> ESC (I will worry about this) --> Motors 
 
-Signal Ranges (Some key ranges that we will use in the future, it might look crazy now, but its simples): 
-Controller values to arduino (0-255 potentiometer) -> Arduino remaps from 0-255 to 0-180 (servo ranges) -> ESC -> motors
+                                                        Signal Ranges 
+(This part is mostly for me to keep track of the ranges of stuffn)
+(Some key ranges that we will use in the future, it might look crazy now, but its very simple stuff): 
+Controller values to arduino (0-255 potentiometer) -> Arduino remaps (from 0-255 to 0-180)(servo ranges) -> ESC -> motors
 PWM ranges from 1000ms-2000ms for hobby servos 
 PWM: analogRead/Write(0-255)
 Potentiometer:(0-1023)
