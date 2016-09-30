@@ -1,8 +1,8 @@
-/* Comments: 
-                                                    Information Flow: 
+/* **************************************************** COMMENTS *******************************************************************
+Information Flow: 
 Transmitter (the controller) --> Reciever (will be on robot) --> (Digital pin)Arduino(PWM pin) --> ESC (I will worry about this) --> Motors 
 
-                                                        Signal Ranges 
+Signal Ranges:
 (This part is mostly for me to keep track of the ranges of stuffn)
 (Some key ranges that we will use in the future, it might look crazy now, but its very simple stuff): 
 Controller values to arduino (0-255 potentiometer) -> Arduino remaps (from 0-255 to 0-180)(servo ranges) -> ESC -> motors
@@ -10,11 +10,21 @@ PWM ranges from 1000ms-2000ms for hobby servos
 PWM: analogRead/Write(0-255)
 Potentiometer:(0-1023)
 */
+//******************************************************* CODE *********************************************************************
 
+rcpin = 32 ;     //Connecting Transmitter signal wire to Arduino Digital pin, no need to be PWM
+motorFL = 5;     //PWM signal from arduino to the ESC to the Front Left motor
+motorFR = 6;     //To the Front Right motor
+motorBL = 9;     //To the Back Left motor
+motorBR = 10;    //To the Back Right motor
 
 void setup() {
-  // put your setup code here, to run once:
-
+  Serial.begin(9600);        //Activating serial communications
+  pinMode(rcpin, INPUT);     //Because data is being sent to the arduino, its INPUT
+  pinMode(motorFL, OUTPUT);  //Sending info out from Arduino, so OUTPUT
+  pinMode(motorFR, OUTPUT);
+  pinMode(motorBL, OUTPUT);
+  pinMode(motorBR, OUTPUT);
 }
 
 void loop() {
