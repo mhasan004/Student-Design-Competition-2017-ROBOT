@@ -1,0 +1,26 @@
+		We will copy and paste any code from "SDCProgramming" repository in GitHub to the Arduino IDE to look for errors (the reason for this is that GitHub doesn't have an Arduino based library so we wont know our errors until we run the code on the Arduino IDE)
+Each person in the team will be given a part to do depending on experience
+If you get stuck on a code, I would like to ask you to google it since you can get your answer faster, but you can also talk to us in our slack group chat and we will help you out
+                                                    
+                        						Schedule:
+Before Spring Semester:
+* We will start coding the robot during the middle of November and would like everyone to continue working on the code during the Winter   break. 
+* We need try to get at least 3/4 of the code done before the Spring semester starts. 
+* At this point, we dont need to worry about the values (ex how fast the motor will be, servo position, etc), we will get the values      	when we do the testing in the Spring term.
+
+Spring Semester: 
+* Spring semester will be the testing phase (aka HELL). Obviously the entire robot won't be finished by the first month of the semester, 	 so we will test each aspect of the robot until the robot is finished. 
+  The different modes of the robot will be:
+        Racing mode 
+        Tennis Ball Hitter mode
+        Ball Thrower Mode
+        Climbing stairs mode
+* We will test to see if all the signal values are correct for each of these modes when we use the controller 
+  (ex. for "Racing Mode", the motors will be fast for speed, for "Climbing Mode, motors will be slower for torque) 
+* Calibrate ESC (i will do this)   
+* WHEN THE ROBOT IS MADE, we will put all the code together and fix up the code
+
+
+CONCLUSION:
+		We will make a TON of modifications to our code and it can get messy, so hopefully GitHub can makes things clearer
+My plan is to get the code for all the modes done by the first month, get the exact values by the second month, and leave the remaining months of the semester to run tests to get the numbers right in our code (you will understand what numbers Im talking about once we get to the coding)
