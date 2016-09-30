@@ -13,24 +13,30 @@ Potentiometer:(0-1023)
 //******************************************************* CODE *********************************************************************
 
 
-rcpin = 32 ;      //Connecting transmitter signal wire to Arduino Digital pin, no need to be PWM
-motorFL = 5;     //PWM signal from arduino to the ESC to the Front Left motor
-motorFR = 6;     //To the Front Right motor
-motorBL = 9;     //To the Back Left motor
-motorBR = 10;    //To the Back Right motor
+ch1 = leftStick;  //challel 1 will be the Left stick, which will move the robot
+ch2 = rightStick;
+ch1 = 32;         //Connect channel 1 transmitter signal wire to Arduino Digital pin, no need to be PWM
+ch2 = 40;
+motorFL = 5;      //PWM signal from arduino to the ESC to the Front Left motor
+motorFR = 6;      //To the Front Right motor
+motorBL = 9;      //To the Back Left motor
+motorBR = 10;     //To the Back Right motor
 
 void setup() {
-  Serial.begin(9600);        //Activating serial communications
-  pinMode(rcpin, INPUT);     //Because data is being sent to the arduino, its INPUT
-  pinMode(motorFL, OUTPUT);  //Sending info out from Arduino, so OUTPUT
+  Serial.begin(9600);         //Activating serial communications
+  pinMode(ch1, INPUT);        //Because data is being sent to the arduino, its INPUT
+  pinMode(ch2, INPUT);  
+  pinMode(motorFL, OUTPUT);   //Sending info out from Arduino, so OUTPUT
   pinMode(motorFR, OUTPUT);
   pinMode(motorBL, OUTPUT);
   pinMode(motorBR, OUTPUT);
 }
 
+int val; 
+
 void loop() {
-int val = pulseIn(rcpin, INPUT);        //recieve input from the transmitter
-if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
+val = pulseIn(ch1, HIGH, 25000);        //read the pulsewidth of channel 1 and = it to "val"
+if ((val > 18150) && (val < 18210)){  //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
  digitalWrite(motorFL, LOW);
  digitalWrite(motorFR, LOW);
  digitalWrite(motorBL, LOW);
