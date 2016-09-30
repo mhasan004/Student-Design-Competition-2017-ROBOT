@@ -12,7 +12,8 @@ Potentiometer:(0-1023)
 */
 //******************************************************* CODE *********************************************************************
 
-rcpin = 32 ;     //Connecting Transmitter signal wire to Arduino Digital pin, no need to be PWM
+
+rcpin = 32 ;      //Connecting transmitter signal wire to Arduino Digital pin, no need to be PWM
 motorFL = 5;     //PWM signal from arduino to the ESC to the Front Left motor
 motorFR = 6;     //To the Front Right motor
 motorBL = 9;     //To the Back Left motor
@@ -28,6 +29,12 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+int val = pulseIn(rcpin, INPUT);        //recieve input from the transmitter
+if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
+ digitalWrite(motorFL, LOW);
+ digitalWrite(motorFR, LOW);
+ digitalWrite(motorBL, LOW);
+ digitalWrite(motorBR, LOW);
+ }
+ 
 }
