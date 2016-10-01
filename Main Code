@@ -13,7 +13,7 @@ Potentiometer:(0-1023)
 //******************************************************* CODE *********************************************************************
 
 
-ch1 = leftStick;  //challel 1 will be the Left stick, which will move the robot
+ch1 = leftStick;  //channel 1 will be the Left stick, which will move the robot
 ch2 = rightStick;
 ch1 = 32;         //Connect channel 1 transmitter signal wire to Arduino Digital pin, no need to be PWM
 ch2 = 40;
