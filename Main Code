@@ -25,7 +25,7 @@ Servo motorBL;
 Servo motorBR;
 
 void setup() {
-  Serial.begin(9600);     //Activating serial communications
+  Serial.begin(9600);     //Activating serial communications (used so that we can print stuff on the screen to help us determine values)
   pinMode(ch1, INPUT);    //Because data is being sent to the arduino, its INPUT
   pinMode(ch2, INPUT);    //still need to kow which channel is the x and y values for the sticks
   
