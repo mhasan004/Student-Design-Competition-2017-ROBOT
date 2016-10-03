@@ -19,7 +19,7 @@ ch2 = rightStick;
 ch1 = 32;           //Connect channel 1 transmitter signal wire to Arduino Digital pin, no need to be PWM
 ch2 = 40;
 
-Servo motorFL;      //name all the motors, (these are actually ESC that controll the motors)
+Servo motorFL;      //name all the motors, (these are actually the ESCs that control the motors, but lets just call them motors for simplicity)
 Servo motorFR;
 Servo motorBL;
 Servo motorBR;
@@ -27,7 +27,7 @@ Servo motorBR;
 void setup() {
   Serial.begin(9600);     //Activating serial communications
   pinMode(ch1, INPUT);    //Because data is being sent to the arduino, its INPUT
-  pinMode(ch2, INPUT);  
+  pinMode(ch2, INPUT);    //still need to kow which channel is the x and y values for the sticks
   
   motorFL.attach(5);      //PWM signal from arduino to the ESC to the Front Left motor
   motorFR.attach(6);      //To the Front Right motor ESC
@@ -35,7 +35,7 @@ void setup() {
   motorBR.attach(10);     //To the Back Right motor
   
   /*IGNORE THESE:
-  pinMode(motorFL, OUTPUT);   //Sending info out from Arduino, so OUTPUT
+  pinMode(motorFL, OUTPUT);   
   pinMode(motorFR, OUTPUT);
   pinMode(motorBL, OUTPUT);
   pinMode(motorBR, OUTPUT);*/
@@ -52,5 +52,21 @@ if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop al
  digitalWrite(motorBL, LOW);
  digitalWrite(motorBR, LOW);
  }
- 
 }
+
+
+
+
+//********************************************************* FUNCTIONS SECTION ********************************************************* 
+
+//In the code: if the sprint mode channel switch is flipped and all other switches are off, activate this funtion
+void sprint(){
+ //our spring command will go here, all motors will run at 100% max
+}
+
+//if the steps mode channel switch is on and all other is off, activate this function
+void steps(){
+//all motors at 70% max?
+}
+
+
