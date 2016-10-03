@@ -12,24 +12,33 @@ Potentiometer:(0-1023)
 */
 //******************************************************* CODE *********************************************************************
 
+#include<Servo.h>
 
-ch1 = leftStick;  //channel 1 will be the Left stick, which will move the robot
+ch1 = leftStick;    //channel 1 will be the Left stick, which will move the robot
 ch2 = rightStick;
-ch1 = 32;         //Connect channel 1 transmitter signal wire to Arduino Digital pin, no need to be PWM
+ch1 = 32;           //Connect channel 1 transmitter signal wire to Arduino Digital pin, no need to be PWM
 ch2 = 40;
-motorFL = 5;      //PWM signal from arduino to the ESC to the Front Left motor
-motorFR = 6;      //To the Front Right motor
-motorBL = 9;      //To the Back Left motor
-motorBR = 10;     //To the Back Right motor
+
+Servo motorFL;      //name all the motors, (these are actually ESC that controll the motors)
+Servo motorFR;
+Servo motorBL;
+Servo motorBR;
 
 void setup() {
-  Serial.begin(9600);         //Activating serial communications
-  pinMode(ch1, INPUT);        //Because data is being sent to the arduino, its INPUT
+  Serial.begin(9600);     //Activating serial communications
+  pinMode(ch1, INPUT);    //Because data is being sent to the arduino, its INPUT
   pinMode(ch2, INPUT);  
+  
+  motorFL.attach(5);      //PWM signal from arduino to the ESC to the Front Left motor
+  motorFR.attach(6);      //To the Front Right motor ESC
+  motorBL.attach(9);      //To the Back Left motor ESC
+  motorBR.attach(10);     //To the Back Right motor
+  
+  /*IGNORE THESE:
   pinMode(motorFL, OUTPUT);   //Sending info out from Arduino, so OUTPUT
   pinMode(motorFR, OUTPUT);
   pinMode(motorBL, OUTPUT);
-  pinMode(motorBR, OUTPUT);
+  pinMode(motorBR, OUTPUT);*/
 }
 
 int val; 
