@@ -36,7 +36,8 @@ int val;
 
 void loop() {
 val = pulseIn(ch1, HIGH, 25000);        //read the pulsewidth of channel 1 and = it to "val"
-if ((val > 18150) && (val < 18210)){  //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
+                                        //basically "pulseIn" means that when the voltage goes HIGH (5 volts) , start timing untill the voltage goes to LOW (0 olts), and tell me the time in ms
+if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
  digitalWrite(motorFL, LOW);
  digitalWrite(motorFR, LOW);
  digitalWrite(motorBL, LOW);
