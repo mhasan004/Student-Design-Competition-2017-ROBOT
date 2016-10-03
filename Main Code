@@ -55,18 +55,21 @@ if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop al
 }
 
 
-
-
 //********************************************************* FUNCTIONS SECTION ********************************************************* 
-
+/*This is where we will list all the funtions tomake it easier and clearer when we review our code. 
+  in our code we can write something like:
+                      if (the racing mode swith is flicked, do this){
+                        void sprint(); 
+                        } */
+                                                                           
 //In the code: if the sprint mode channel switch is flipped and all other switches are off, activate this funtion
 void sprint(){
- //our spring command will go here, all motors will run at 100% max
-}
+  //our spring command will go here, all motors will run at 100% max
+  }
 
 //if the steps mode channel switch is on and all other is off, activate this function
 void steps(){
-//all motors at 70% max?
-}
+  //all motors at 70% max?
+  }
 
 
