@@ -1,4 +1,4 @@
-/* **************************************************** COMMENTS *******************************************************************
+/* *********************************************** OVERVIEW | USEFUL VALUES ********************************************************
 Information Flow: 
 Transmitter (the controller) --> Reciever (will be on robot) --> (Digital pin)Arduino(PWM pin) --> ESC (I will worry about this) --> Motors 
 
