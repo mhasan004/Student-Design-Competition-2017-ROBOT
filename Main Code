@@ -59,7 +59,7 @@ if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop al
 /*This is where we will list all the funtions to make our code easier to read when we are looking for a mistake and easier to write. 
   In our code we can write something like:
                       if (the racing mode swith is flicked, do this){
-                        void sprint();     //<----that will do the "spring()" function which is below
+                        void sprint();     //<----that will do the "sprint()" function which is below
                         } */
                                                                            
 //In the code: if the sprint mode channel switch is flipped and all other switches are off, activate this funtion
