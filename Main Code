@@ -44,9 +44,9 @@ void setup() {
 int val; 
 
 void loop() {
-val = pulseIn(ch1, HIGH, 25000);        //read the pulsewidth of channel 1 and = it to "val"
+val = pulseIn(ch1, HIGH, 25000);        //read the pulsewidth (explained below) of channel 1 and = it to "val"
                                         //basically "pulseIn" means that when the voltage goes HIGH (5 volts) , start timing untill the voltage goes to LOW (0 olts), and tell me the time in ms
-if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop all motors (change the numbers)(change to Servo lib)
+if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop all motors (THESE ARE RANDOM NUMBERS)(change to Servo lib)
  digitalWrite(motorFL, LOW);
  digitalWrite(motorFR, LOW);
  digitalWrite(motorBL, LOW);
@@ -58,10 +58,11 @@ if ((val > 18150) && (val < 18210)){    //If the stick is in the middle, stop al
 //********************************************************* FUNCTIONS SECTION ********************************************************* 
 /*This is where we will list all the funtions to make our code easier to read when we are looking for a mistake and easier to write. 
   In our code we can write something like:
-                      if (the racing mode swith is flicked, do this){
+                     
+                     if (the racing mode swith is flicked, do this){
                         void sprint();     //<----that will do the "sprint()" function which is below
-                        } */
-                                                                           
+                        }*/  
+                                                                          
 //In the code: if the sprint mode channel switch is flipped and all other switches are off, activate this funtion
 void sprint(){
   //our spring command will go here, all motors will be able to run at 100% max capacity
