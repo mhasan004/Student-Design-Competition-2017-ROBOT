@@ -59,7 +59,7 @@ void loop(){
 climbStairs();                                  <--------------ur made up function in the code
 }
 
-void clibStairs(){                              <----------------------ur made up function
+void climbStairs(){                              <----------------------ur made up function
 //if i move the controller's stick,
 //the motors will do this: blablabla;
 
