@@ -1,0 +1,63 @@
+// PROJECT: when i click switch1, Led1 blinks 2 times
+//          when i click switch2, led2 blinds 3 times
+// Switch 1,2: Pins 3,5               LED 1,2: Pins 13,11
+
+
+const int led1 = 13;
+const int led2 = 11;
+const int switch1 = 3;
+const int switch2 = 5;
+int state1=0;
+int state2=0;
+
+void setup(){
+  pinMode (13, OUTPUT); 
+  pinMode (11, OUTPUT);
+  
+  Serial.begin(19600);
+  pinMode (3, INPUT);
+  Serial.begin(19600);
+  pinMode (5, INPUT); 
+}
+
+void loop(){
+  int state1 = digitalRead(switch1);
+  Serial.println(state1);
+     delay(1);
+  int state2 = digitalRead(switch2);
+  Serial.println (state2);
+     delay(1);
+
+//For led1: blink 2 times-> High 100millisec-> low 100milisec-> High 100millisec-> final low
+ if (state1 == 1){
+  digitalWrite (led1, HIGH);   
+  delay(100);
+  digitalWrite (led1, LOW);
+  delay(100);
+  digitalWrite (led1, HIGH);
+  delay(100);
+  digitalWrite (led1, LOW);
+ }
+
+//For led2: High 3 times -> High 100millisec-> low 100 millisec-> High 100 millisec-> low 100 millisec-> blink 100 millisec-> final low 
+ if (state2 == 1){
+  digitalWrite (led2, HIGH);   
+  delay(100);
+  digitalWrite (led2, LOW);
+  delay(100);
+  digitalWrite (led2, HIGH);
+  delay(100);
+  digitalWrite (led2, LOW);
+  delay(100);
+  digitalWrite (led2, HIGH);   
+  delay(100);
+  digitalWrite (led2, LOW);
+ }
+
+ //default no button pressed = all low
+ else{                         
+  digitalWrite (led1, LOW);    
+  digitalWrite (led2, LOW); 
+ }
+}
+
