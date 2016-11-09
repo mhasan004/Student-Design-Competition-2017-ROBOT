@@ -1,1 +1,37 @@
-/* When you press the button, one LED is on, when you are not pressing the button, another LED is on*/
+/*Press the button: one LED 1 will flash. Not pressing the button: LED 2 will flash
+pins 13,11 is LED1, LED2 respectively
+pin  3 is button
+*/
+
+
+const int led = 13;           //LED 1 pin
+const int led2 = 11;          //LED 2 pin
+const int button = 3;         //Button pin    
+int buttonState = 0;          //set the button as being low(this doesnt really matter)
+
+void setup() {
+  pinMode (led, OUTPUT);      //LED is an output
+  pinMode (led2, OUTPUT);
+  Serial.begin(9600);         //send this data at 9600bps
+  pinMode (button,INPUT);     //button is input
+}
+
+void loop() {
+  int buttonState = digitalRead(button);  
+  Serial.println (buttonState);           //it prints it the button is presed or not. 0 means not pressed, 1 means pressed.                                                                            
+  delay (1);
+
+
+if (buttonState == 1){
+  digitalWrite(led, HIGH);      //if you cant see the LED light up, it means that there wasnt even time given to let the led flash, to fix this, get rid of the "//" from "//delay(100);"
+  //delay(100);
+  digitalWrite(led, LOW);
+  digitalWrite(led2, LOW);
+  }
+  
+if (buttonState == 0){
+  digitalWrite (led2, HIGH);
+  digitalWrite (led2, LOW);
+  
+  }
+}
