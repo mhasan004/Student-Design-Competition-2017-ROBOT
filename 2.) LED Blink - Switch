@@ -1,0 +1,50 @@
+/* When you click the button, the LED will blink for a sec and turn off
+   Will upload a picture of how to wire it
+   IMPORTANT! MUST connect resistors to LED or it will burn up!
+   
+   Pin 7 is LED
+   Pin 3 is button
+*/
+
+const int button = 3;     //connect button to pin 3
+const int led = 7;        //connect LED to pin 7
+int buttonState = 0;        
+
+void setup() {
+  Serial.begin(9600);      //send this data at 9600bps, its just so that we can read stuff when we go to "Tools-> Serial Monitor"
+  pinMode (button,INPUT);  //the button is the input 
+  pinMode (led, OUTPUT);   //the LED is the output
+}
+
+void loop() {
+  int buttonState = digitalRead(button);  //When you read the state of the button (0 or 1?, pushed or not pushed?), that will be The State of the button
+  Serial.println (buttonState);           //it prints it the button is presed or not. 0 means not pressed, 1 means pressed.                                      
+  delay (1);                              //give it time to print the buttonState  
+  
+if (buttonState == 1){                 //if button is pressed:
+  digitalWrite(led,HIGH);              //Light up the LED
+  delay (100);                         //Light it up for 100 miliseconds
+  digitalWrite(led, LOW);              //Turn off the LED  
+  delay(100);                          //turn off for 100ms      
+  }
+  
+else { 
+  digitalWrite(led,LOW);    
+  } 
+}   
+
+
+
+*/ NOTES: 
+If you want to make the LED blick when u press the button, it would look like this:
+it should work:
+
+if (buttonState == 1){                
+  digitalWrite(led,HIGH);             
+  delay (100);                       
+  }
+  
+else { 
+  digitalWrite(led,LOW);    
+  }
+*/
