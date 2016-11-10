@@ -35,7 +35,7 @@ else {
 
 
 
-*/ NOTES: 
+/* NOTES: 
 If you want to make the LED blick when u press the button, it would look like this:
 it should work:
 
