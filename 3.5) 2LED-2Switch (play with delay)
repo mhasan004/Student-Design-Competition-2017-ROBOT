@@ -1,0 +1,55 @@
+/* PROJECT: when I push switch1, Led1 blinks every 300ms
+            when I push switch2, led2 blinds every 300ms
+   Switch 1,2: Pins 3,5               LED 1,2: Pins 13,11
+
+COMMENT:
+Play around with he delay functions
+SameSchematic as 3rd Tutorial
+
+const int led1 = 13;
+const int led2 = 11;
+const int switch1 = 3;
+const int switch2 = 5;
+int state1=0;
+int state2=0;
+
+void setup(){
+  pinMode (13, OUTPUT); 
+  pinMode (11, OUTPUT);
+  
+  Serial.begin(19600);
+  pinMode (3, INPUT);
+  Serial.begin(19600);
+  pinMode (5, INPUT); 
+}
+
+void loop(){
+  int state1 = digitalRead(switch1);
+  Serial.println(state1);
+     delay(1);
+  int state2 = digitalRead(switch2);
+  Serial.println (state2);
+     delay(1);
+
+//If 1st button pressed: Led1 will constantly blink every 300ms: High for 300millisec, low for 300milisec
+ if (state1 == 1){
+  digitalWrite (led1, HIGH);   
+  delay(300);
+  digitalWrite (led1, LOW);
+  delay(300);
+ }
+
+//If 2nd button pressed: Led2 will constantly blink every 300ms: High for 300millisec, low for 300milisec
+ if (state2 == 1){
+  digitalWrite (led2, HIGH);   
+  delay(300);
+  digitalWrite (led2, LOW);
+  delay(300);
+ }
+
+ //default no button pressed = all low
+ else{                         
+  digitalWrite (led1, LOW);    
+  digitalWrite (led2, LOW); 
+ }
+}
