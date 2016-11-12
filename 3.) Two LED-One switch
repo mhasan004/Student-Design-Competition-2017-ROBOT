@@ -24,14 +24,12 @@ void loop() {
 
 if (buttonState == 1){
   digitalWrite(led, HIGH);      //if you cant see the LED light up, it means that there wasnt even time given to let the led flash, to fix this, get rid of the "//" from "//delay(100);"
-  //delay(100);
-  digitalWrite(led, LOW);
   digitalWrite(led2, LOW);
   }
   
 if (buttonState == 0){
   digitalWrite (led2, HIGH);
-  digitalWrite (led2, LOW);
+  digitalWrite (led, LOW);
   
   }
 }
