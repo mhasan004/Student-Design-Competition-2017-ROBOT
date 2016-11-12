@@ -28,9 +28,9 @@ void loop(){
   Serial.println (state2);
      delay(1);
 
-//led1 lights up as swithc is pressed
+//led1 lights up as switch is pressed
  if (state1 == 1){
-  digitalWrite (led1, HIGH);   
+  digitalWrite (led1, HIGH);       //notice there are NO DELAY function, meaning that it will be ON as long as you hold the button
   digitalWrite (led2, LOW);
  }
 
