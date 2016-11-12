@@ -1,5 +1,5 @@
-// PROJECT: when i click switch1, Led1 blinks 2 times
-//          when i click switch2, led2 blinds 3 times
+// PROJECT: When I push switch1, Led1 blinks 
+//          When I push switch2, led2 blinds 
 // Switch 1,2: Pins 3,5               LED 1,2: Pins 13,11
 
 
