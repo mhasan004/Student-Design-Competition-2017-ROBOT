@@ -28,30 +28,16 @@ void loop(){
   Serial.println (state2);
      delay(1);
 
-//For led1: blink 2 times-> High 100millisec-> low 100milisec-> High 100millisec-> final low
+//led1 lights up as swithc is pressed
  if (state1 == 1){
   digitalWrite (led1, HIGH);   
-  delay(100);
-  digitalWrite (led1, LOW);
-  delay(100);
-  digitalWrite (led1, HIGH);
-  delay(100);
-  digitalWrite (led1, LOW);
+  digitalWrite (led2, LOW);
  }
 
-//For led2: High 3 times -> High 100millisec-> low 100 millisec-> High 100 millisec-> low 100 millisec-> blink 100 millisec-> final low 
+//led2 lights up as swithc is pressed
  if (state2 == 1){
-  digitalWrite (led2, HIGH);   
-  delay(100);
-  digitalWrite (led2, LOW);
-  delay(100);
-  digitalWrite (led2, HIGH);
-  delay(100);
-  digitalWrite (led2, LOW);
-  delay(100);
-  digitalWrite (led2, HIGH);   
-  delay(100);
-  digitalWrite (led2, LOW);
+  digitalWrite (led2, HIGH);  
+  digitalWrite (led1, LOW);
  }
 
  //default no button pressed = all low
@@ -60,4 +46,3 @@ void loop(){
   digitalWrite (led2, LOW); 
  }
 }
-
