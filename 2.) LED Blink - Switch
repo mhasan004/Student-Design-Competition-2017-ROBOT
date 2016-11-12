@@ -36,8 +36,8 @@ else {
 
 
 /* NOTES: 
-If you want to make the LED blick when u press the button, it would look like this:
-it should work:
+If you want to make the LED blink when u press the button, it would look like this: 
+(just replace the if and the else statement above with this one)
 
 if (buttonState == 1){                
   digitalWrite(led,HIGH);             
