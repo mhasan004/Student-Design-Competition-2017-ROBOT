@@ -1,1 +1,28 @@
+#include <Servo.h>       //here, we are calling on the Servo library so that we can use all the Servo commands
 
+Servo servo;            //our servo's name
+
+int pot = A0;           // connecting the potentiometer to A0 pin (the analog pins are on the other side of the digital pins)
+int value;               
+int state=0;
+
+void setup() {
+  servo.attach(9);        // attach the servo to pin 9
+  Serial.begin(19200);
+}
+
+void loop() {
+  state = analogRead(pot);                // read where the potentiometer is turned to (values are from 0 to 1023)
+  Serial.print(state);                    //print that value of where the potentiometer is so that we will know. 
+  delay(1);
+  
+  value = map(state, 0, 1023, 0, 180);     // here, we are converting 0->1023 values to 0->180 (servos only works with 0 to 180)
+  servo.write(value);                      // turn the servo to the angle conversion number of the potentiometer posiiton
+  delay(5);                                // give the servo enough time to get there!
+                           
+  int angle = servo.read();                //print the angle
+  Serial.print("       Angle: ");
+  Serial.print(angle);
+  Serial.println();
+  delay(1);
+}
