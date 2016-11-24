@@ -1,60 +1,70 @@
-*
-* If ch isn't a newline
-* (linefeed) character,
-* we will add the character
-* to the incomingString
+#include<Servo.h>
+
+// ch1 is rightStickSides;    
+// ch2 is rightStickUpDown;
+// ch3 is leftStickSides;    
+// ch4 is leftStickUpDown;
+
+int ch1 = 5;          
+int ch2 = 6;
+/*int ch3 = 9;
+int ch4 = 10;
 */
-if (ch != 10){
-// Print out the value received
-// so that we can see what is
-// happening
-Serial.print("I have received: ");
-Serial.print(ch, DEC);
-Serial.print('\n');
+Servo motorFL;      //name all the motors, (these are actually the ESCs that control the motors, but lets just call them motors for simplicity)
+/*Servo motorFR;
+Servo motorBL;
+Servo motorBR;*/
 
-// Add the character to
-// the incomingString
-incomingString += ch;
+void setup() {
+  Serial.begin(9600);     //Activating serial communications (used so that we can print stuff on the screen to help us determine values)
+  pinMode(ch1, INPUT);    //x//Because data is being sent to the arduino, its INPUT; still need to kow which channel is the x and y values for the sticks
+  pinMode(ch2, INPUT);    //y
+ /* pinMode(ch3, INPUT);    //x
+    pinMode(ch4, INPUT);    //y
+ */
+  motorFL.attach(10);     
+/*motorFR.attach(6);      //To the Front Right motor ESC
+  motorBL.attach(9);      //To the Back Left motor ESC
+  motorBR.attach(10);     //To the Back Right motor*/
 }
-// received a newline (linefeed) character
-// this means we are done making a string
-else
-{
-// print the incoming string
-Serial.println("I am printing the entire string");
-Serial.println(incomingString);
 
-// Convert the string to an integer
-int val = incomingString.toInt();
+void loop() {  
+//ESC ACTIVATION
+if(Serial.available() > 0){  // If there is incoming value
+char ch = Serial.read(); // read the value
+}
 
-// print the integer
-Serial.println("Printing the value: ");
-Serial.println(val);
+
+int righty = pulseIn(ch2, HIGH, 25000);  
+int rightx = pulseIn(ch1, HIGH, 25000);   
+int updown = map(righty  , 1053, 1870, 0, 180);    //1470-77 center
+int leftright = map(rightx, 1050, 1882, 0, 180);  //1460-66is center 
+
+Serial.print ("Updown: ");
+Serial.print(righty);
+Serial.print ("Servo: ");
+Serial.println(updown);
 
 /*
-* We only want to write an integer between
-* 0 and 180 to the motor.
+Serial.print ("LeftRight: ");
+Serial.print(rightx);
+Serial.print ("Servo: ");
+Serial.println(leftright);
 */
-if (val > -1 && val < 181)
-{
-// Print confirmation that the
-// value is between 0 and 180
-Serial.println("Value is between 0 and 180");
-// Write to Servo
-myMotor.write(val);
-}
-// The value is not between 0 and 180.
-// We do not want write this value to
-// the motor.
-else
-{
-Serial.println("Value is NOT between 0 and 180");
-
-// IT'S a TRAP!
-Serial.println("Error with the input");
-}
-
-// Reset the value of the incomingString
-incomingString = "";
-}
+if (rightx >= 1550){   //if i push right stick UP, LOWER THAN THE FIRST MARK!
+ motorFL.write(updown);
+ /*digitalWrite(motorFR, LOW);
+ digitalWrite(motorBL, LOW);
+ digitalWrite(motorBR, LOW);*/
+ }
+ 
+ if (rightx <= 1372){   //if i push right stick DOWN, NOT UP TO FIRST MARK DOWN!
+ motorFL.write(updown);
+ /*digitalWrite(motorFR, LOW);
+ digitalWrite(motorBL, LOW);
+ digitalWrite(motorBR, LOW);*/
+ }
+  if ((rightx >=1373)&&(rightx <=1549)){
+  motorFL.write(0); 
+  }
 }
