@@ -1,8 +1,0 @@
-One period = 20 miliseconds 
-
-1.7 -> 2.0 miliseconds = CCW <-                (delay(1000) 1000ms or 1second)
-0.7 -> 1.0 miliseconds = CW ->
-1.5 miliseconds = center (for stand servo)
-
-so min signal is 700
-max is 2000
