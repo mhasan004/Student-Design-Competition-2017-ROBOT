@@ -16,15 +16,15 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 #define rightStick_x    A3
 #define rightStick_y    A2
 #define motorSpeed_Pot  A4
-int left_sw  = 22;                          
-int right_sw = 23;
-int lifting_sw   = 4;                   
-int throwing_sw  = 5;                      
-int climbing_sw  = 6;                    
-int hitting_sw   = 7;                     
-int STOP_sw      = 39;                    
-int levelUP_sw   = 15;                      
-int levelDOWN_sw = 16;
+#define left_sw      22                          
+#define right_sw     23
+#define lifting_sw   4                   
+#define throwing_sw  5                     
+#define climbing_sw  6                   
+#define hitting_sw   7                    
+#define STOP_sw      39                    
+#define levelUP_sw   15                     
+#define levelDOWN_sw 16
 const int sizeOfArray = 9;
 int switchModeArray[] = {left_sw, right_sw, lifting_sw, throwing_sw, climbing_sw, hitting_sw, STOP_sw, levelUP_sw, levelDOWN_sw};
 int buttonstateArray[sizeOfArray] = {};
@@ -98,33 +98,33 @@ void loop() {
     calibrate_sticks_to_ESCs();                                    ////(Joystick Calibration #02: ESC NEUTRAL)/////  0-(ESC Low Netural<->ESC High Neutral)-180                    
     limitESCs_to_SpeedPot();                                       ////(Joystick Calibration #03)/////////////////   (ESC lowest position allowed by SpeedPot)-(ESC Low Netural<->ESC High Neutral)-(ESC highest position allowed by SpeedPot)    
                                                                        //Lets Speed Potententiometer Sets Limits)                                                               
-  /////////////////////////////////////////////////////(If Statements: RACING/CLIMBING)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////(If Statements: RACING/CLIMBING)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //for testing reason i commented out the hitting switch. also, because climbing and racing uses the same movement, i set it up so that while in racing mode (all buttons at 0) the motors can go full 100%, in climbing mode (climbing switch pressed) the motors can be restricted
     if ((data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0) || (data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 1 && data.hitting_sw==0  && data.STOP_sw == 0))    
      {
       racing = true;
       print_RacingOrClimbingModes_onLCD();
-      /*------------------------------------------------------------------------(RIGHT: up)-------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------(RIGHT: up)-------------------------------------------------------------------------------------------------------*/
       if (defaultStick > 93){                                                                                //If RIGHT stick up, print FORWARD % + change OUTGOING
         print_ForwardPercentage_onLCD();
         store_Yvalues_to_ESC();
       }                                                                                                     //if the RIGHT stick up, insert the Y AXIS to OUTGOING
-      /*------------------------------------------------------------------------(RIGHT: down)----------------------------------------------------------------------------------------------------*/                                                                                                              
+/*------------------------------------------------------------------------(RIGHT: down)----------------------------------------------------------------------------------------------------*/                                                                                                              
       if (defaultStick < 87){                                                                               //If RIGHT stick down, print BACK % + change OUTGOING
         print_BackPercentage_onLCD();
         store_Yvalues_to_ESC();
       }                                                                                                     //if RIGHT stick down, insert Y AXIS to OUTGOING
-      /*------------------------------------------------------------------------(LEFT: left)-----------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------(LEFT: left)-----------------------------------------------------------------------------------------------------*/
       if (defaultStick_x < 87 && defaultStick >= 87 && defaultStick <= 93){                                 //If LEFT stick left, & RIGHT stick is MIDDLE, print LEFT TURN % + change OUTGOING [stick goes to 0. left motors eed to go to 0, right motors need to go to 180] reverse right ESCs  
         print_LeftPercentage_onLCD();
         store_XTURNvalues_to_ESC();
       }                                                                                                 
-      /*------------------------------------------------------------------------(LEFT: right)----------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------(LEFT: right)----------------------------------------------------------------------------------------------------*/
       if (defaultStick_x > 93 && defaultStick >= 87 && defaultStick <= 93){                              //If LEFT stick right, & RIGHT stick is MIDDLE, and print RIGHT TURN % + change OUTGOING  [stick goes 180. left motors: 180. right motors: 0] reverse right ESCs 
         print_RightPercentage_onLCD();
         store_XTURNvalues_to_ESC();
       }                                                                                                   
-      /*--------------------------------------------------------------------------(MIDDLE)------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------(MIDDLE)-------------------------------------------------------------------------------------------------------*/
       resetALLMotors();                                                                                               
     }                                                                                                     
   ///////////////////////////////////////////////////////////////////(If Statements: CLIMING)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,14 +136,14 @@ void loop() {
       limitESCs_to_Percent(percent);
       print_SpeedPot_onLCD(percent); 
     }
-  ////////////////////////////////////////////////////////////////////(If Statements: STOP)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////(If Statements: STOP)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if (data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 1)      //RESETS Y VALUES to NEUTRAL when stop is pressed
     {
       racing == true;
       stop();
       print_STOPmode_andRefreshLCD();
     }
-  ///////////////////////////////////////////////////////////////////(If Statements: LIFTING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////(If Statements: LIFTING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //READS+ACTIVATES LEVEL UP/DOWN BUTTONS; SEND BUTTONS TO ROBOT; DISABLES STICKS
     else if (data.lifting_sw == 1 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0)      //Not Racing/climbing mode so motors are disabled; Activte the level UP/DOWN buttons so we can move the scissor lift DC motor
     {
@@ -160,21 +160,21 @@ void loop() {
         lcd.print("     GOING DOWN     ");
       }*/
     }
-  /////////////////////////////////////////////////////////////////(If Statements: THROWING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+/////////////////////////////////////////////////////////////////(If Statements: THROWING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
     else if (data.lifting_sw == 0 && data.throwing_sw == 1 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0)     //NEED MROE INFORMATION
     {
       stop();
       print_ThrowingMode_onLCD();
       //****NEED MORE INFORMATION***
     }
-  /////////////////////////////////////////////////////////////////(If Statements: HITTING)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////(If Statements: HITTING)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if (data.lifting_sw==0 && data.throwing_sw==0 && data.climbing_sw==0 && data.hitting_sw==1 && data.STOP_sw==0)               //NEED MROE INFORMATION
     {
       stop();
       print_HittingMode_onLCD();
       //****NEED MORE INFORMATION****
     }
-  /////////////////////////////////////////////////////////////////(#04 REVERSE POLARITY?)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////(#04 REVERSE POLARITY?)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     data.ESC0 = ESC0;                                                 //use reverseESC to change the polarity, true if it need to be reverse, false otherwise
     data.ESC_1 = reverseESC(1,ESC_1, false);
     data.ESC_2 = reverseESC(2,ESC_2, true);                           //the left 2 motor need to be reversed
@@ -182,7 +182,7 @@ void loop() {
     data.ESC_4 = reverseESC(4,ESC_4, false);
     data.ESC_5 = reverseESC(5,ESC_5, true);                           //the right 2 motor need to be reversed
     data.ESC_6 = reverseESC(6,ESC_6, false);
-  ////////////////////////////////////////////////////////////////(If Statements: Errors)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////(If Statements: Errors)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (racing == true) {
       lcd.setCursor (3, 2);
       lcd.print("              ");
@@ -193,7 +193,7 @@ void loop() {
     else {
       stop();
     }
-  ///////////////////////////////////////////////////////////////////////(END)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////(END)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     radio.write( &data, sizeof(controllerData) );                  //send all this data to the reciever where the reciever will then supply the motors with the code to go
     if (!radio.write( &data, sizeof(controllerData) ))             //if it fails to send, reset the data to all neutral pulses
     {
@@ -228,7 +228,6 @@ void loop() {
   }//end of else statement    
   Serial.println();
 }    
-
 
 
 
