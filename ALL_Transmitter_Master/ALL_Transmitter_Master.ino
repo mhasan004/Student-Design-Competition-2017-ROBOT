@@ -16,15 +16,15 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 #define rightStick_x    A3
 #define rightStick_y    A2
 #define motorSpeed_Pot  A4
-#define left_sw      22                          
-#define right_sw     23
-#define lifting_sw   4                   
-#define throwing_sw  5                     
-#define climbing_sw  6                   
-#define hitting_sw   7                    
-#define STOP_sw      39                    
-#define levelUP_sw   15                     
-#define levelDOWN_sw 16
+int left_sw  = 22;                          
+int right_sw = 23;
+int lifting_sw   = 4;                   
+int throwing_sw  = 5;                      
+int climbing_sw  = 6;                    
+int hitting_sw   = 7;                     
+int STOP_sw      = 39;                    
+int levelUP_sw   = 15;                      
+int levelDOWN_sw = 16;
 const int sizeOfArray = 9;
 int switchModeArray[] = {left_sw, right_sw, lifting_sw, throwing_sw, climbing_sw, hitting_sw, STOP_sw, levelUP_sw, levelDOWN_sw};
 int buttonstateArray[sizeOfArray] = {};
@@ -228,62 +228,3 @@ void loop() {
   }//end of else statement    
   Serial.println();
 }    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
