@@ -1,4 +1,20 @@
-void stop(){                                                //feed the motors with the neutral pulses
+void resetALLMotors() 
+{
+  if (defaultStick >= 87 && defaultStick <= 93) {                                       //MIDDLE BOTH: reset data for whichever stick is middle
+    reset_y();                                                                          //If RIGHT stick is MIDDLE, reset Y data to neutral
+  }
+  if (defaultStick_x >= 87 && defaultStick_x <= 93) {                                   //If LEFT stick is MIDDLE, reset X data to neutral
+    reset_x();
+  }
+  if (defaultStick >= 87 && defaultStick <= 93 && defaultStick_x >= 87 && defaultStick_x <= 93) {      //If the LEFT/RIGHT stick is MIDDLE, print that its still
+    lcd.setCursor (4, 3);
+    lcd.print("    STILL       ");
+    stop();
+  }
+}
+
+void stop()
+{                                                //feed the motors with the neutral pulses
   reset_y();
   reset_y();
   data.ESC0 = middle[0];
