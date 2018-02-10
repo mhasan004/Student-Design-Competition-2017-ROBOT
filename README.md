@@ -5,7 +5,7 @@ The controller has four switches that control each of the five modes. The right 
 
 The Transmitter file contains the Arduino codes for the controller that I have built. This portion of the code computes all of the data need to operate the robot. The receiver file contains the Arduino code for the robot.
 
-# Calibrating the Brushless Motors:**
+# Calibrating the Brushless Motors:
 
 One of the most complicated parts was the robot was to accurate control each of the six brushless motors. To control the motors, the program had to read the x and y component positions of the left and right analog joysticks and then compute a range of servo angle values to control individual brushless motors. Each motor has a maximum and a minimum value. The maximum value represented 100% speed forwards and the minimum value represented 100% speed backward.
 
