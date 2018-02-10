@@ -22,3 +22,6 @@ I made a speed controller using a sliding potentiometer. the potentiometer contr
 **3) Others**
 
 There was also a broken brushless motor that constantly overheats and breaks down so we had to deal with that issue.
+
+**4) SDC Flow Images**
+The two images in the master branch called "SDC flow" and "SDC flow2" describes how the variable changes to calibration the motors. 
