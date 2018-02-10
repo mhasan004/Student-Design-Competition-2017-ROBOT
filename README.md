@@ -10,7 +10,7 @@ The Transmitter file contains the Arduino codes for the controller that I have b
 One of the most complicated parts was the robot was to accurate control each of the six brushless motors. To control the motors, the program had to read the x and y component positions of the left and right analog joysticks and then compute a range of servo angle values to control individual brushless motors. Each motor has a maximum and a minimum value. The maximum value represented 100% speed forwards and the minimum value represented 100% speed backward.
 
 **1) SDC Flow Images**
-The two images in the master branch called "SDC flow" and "SDC flow2" describes how the variable changes to calibration the motors. 
+The two images in the master branch called **"SDC17 flow.pdf"** and **"SDC flow2.pdf"** describes how the variable changes to calibration the motors. 
 
 **2) Finding the Neutral Pulse Range for Each Motor:**
 
