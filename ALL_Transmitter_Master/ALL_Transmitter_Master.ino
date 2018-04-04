@@ -337,7 +337,6 @@ int isreverse(int stick, bool reverse)
   return (stick);
 }
 
-
 //////////////// FUNCTION: ESC to Neutral Positions////////////////
 void calibrate_sticks_to_ESCs() {
   defaultStick = calib_neutral(0, right_y, 90, 90);            
@@ -471,8 +470,6 @@ int reverseESC(int index, int stick){                        //just a quick and 
   return(stick); 
 }
 
-
-
 //////////////// FUNCTION: Resetting & Stoping Motors////////////////
 void resetALLMotors() 
 {
@@ -523,7 +520,6 @@ void reset_x(){
   ESC_X5 = middle[5];
   ESC_X6 = middle[6];
 }
-
 
 //////////////// FUNCTION: LCD Printign (not Important)////////////////
 void print_RacingOrClimbingModes_onLCD() {
@@ -636,7 +632,6 @@ void print_RightPercentage_onLCD() {
   }
 }
 
-////////
 void print_SpeedPot_onLCD(int speedPot) {
   if (data.lifting_sw == 0){
     //If the lifting mode switch isnt pressed, printing the speed potentiometer percentage on the LCD is allowed
