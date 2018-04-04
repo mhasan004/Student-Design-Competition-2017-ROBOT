@@ -73,14 +73,14 @@ void setup() {
     pinMode(switchModeArray[i], INPUT);              
     pinMode(switchModeArray[i], INPUT_PULLUP);        
   }
-}//END OF SETUP
+}
  
 void loop() {
   racing = false;                                                    //currently not in racing mode, this is only used to toggle some LCD printing stuff
   readALLSwitches();
   print_ALLSwitches_onSerialMonitor();
   readRawJoystickValues();
-///////////////////////////////////////////(TEST THE JOYSTICK)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////(TEST THE JOYSTICK)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   bool doTest = 0;                                                   //change to true if we are trying to calibrate the joystick! if its false, it will skip this section, if its true, it will do this black only
   if (doTest == true){
     testStick_LeftX  = isreverse(left_x, true);
@@ -90,44 +90,43 @@ void loop() {
     speedPotTest = analogRead(motorSpeed_Pot);
     print_TestingStuff_onSerialMonitor();
   }
-///////////////////////////////////////////(Test Ended)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////(Test Ended)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   else
   {
-    read_and_calibrate_speedPot();                                 ////(Calibrate sspeed potentiometer to limit speed of motors [TAB-05])///////////////   
-    turn_sticks_to_servo();                                        ////(Joystick Calibration #01: Turn to Servo)//// 0-90-180
-    calibrate_sticks_to_ESCs();                                    ////(Joystick Calibration #02: ESC NEUTRAL)/////  0-(ESC Low Netural<->ESC High Neutral)-180                    
-    limitESCs_to_SpeedPot();                                       ////(Joystick Calibration #03)/////////////////   (ESC lowest position allowed by SpeedPot)-(ESC Low Netural<->ESC High Neutral)-(ESC highest position allowed by SpeedPot)    
-                                                                       //Lets Speed Potententiometer Sets Limits)                                                               
-////////////////////////////////////////////////////(If Statements: RACING/CLIMBING)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    read_and_calibrate_speedPot();  //(Calibrate sspeed potentiometer to limit speed of motors [TAB-05])///////////////   
+    turn_sticks_to_servo();         //(Joystick Calibration #01: Turn to Servo) 0-90-180
+    calibrate_sticks_to_ESCs();     //(Joystick Calibration #02: ESC NEUTRAL)   0-(ESC Low Netural<->ESC High Neutral)-180                    
+    limitESCs_to_SpeedPot();        //(Joystick Calibration #03)                (ESC lowest position allowed by SpeedPot)-(ESC Low Netural<->ESC High Neutral)-(ESC highest position allowed by SpeedPot)    
+    ////////////////////////////////////////////////////(If Statements: RACING/CLIMBING)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //for testing reason i commented out the hitting switch. also, because climbing and racing uses the same movement, i set it up so that while in racing mode (all buttons at 0) the motors can go full 100%, in climbing mode (climbing switch pressed) the motors can be restricted
     if ((data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0) || (data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 1 && data.hitting_sw==0  && data.STOP_sw == 0))    
      {
       racing = true;
       print_RacingOrClimbingModes_onLCD();
-/*------------------------------------------------------------------------(RIGHT: up)-------------------------------------------------------------------------------------------------------*/
+      /*------------------------------------------------------------------------(RIGHT: up)-------------------------------------------------------------------------------------------------------*/
       if (defaultStick > 93){                                                                                //If RIGHT stick up, print FORWARD % + change OUTGOING
         print_ForwardPercentage_onLCD();
         store_Yvalues_to_ESC();
       }                                                                                                     //if the RIGHT stick up, insert the Y AXIS to OUTGOING
-/*------------------------------------------------------------------------(RIGHT: down)----------------------------------------------------------------------------------------------------*/                                                                                                              
+      /*------------------------------------------------------------------------(RIGHT: down)----------------------------------------------------------------------------------------------------*/                                                                                                              
       if (defaultStick < 87){                                                                               //If RIGHT stick down, print BACK % + change OUTGOING
         print_BackPercentage_onLCD();
         store_Yvalues_to_ESC();
       }                                                                                                     //if RIGHT stick down, insert Y AXIS to OUTGOING
-/*------------------------------------------------------------------------(LEFT: left)-----------------------------------------------------------------------------------------------------*/
+      /*------------------------------------------------------------------------(LEFT: left)-----------------------------------------------------------------------------------------------------*/
       if (defaultStick_x < 87 && defaultStick >= 87 && defaultStick <= 93){                                 //If LEFT stick left, & RIGHT stick is MIDDLE, print LEFT TURN % + change OUTGOING [stick goes to 0. left motors eed to go to 0, right motors need to go to 180] reverse right ESCs  
         print_LeftPercentage_onLCD();
         store_XTURNvalues_to_ESC();
       }                                                                                                 
-/*------------------------------------------------------------------------(LEFT: right)----------------------------------------------------------------------------------------------------*/
+      /*------------------------------------------------------------------------(LEFT: right)----------------------------------------------------------------------------------------------------*/
       if (defaultStick_x > 93 && defaultStick >= 87 && defaultStick <= 93){                              //If LEFT stick right, & RIGHT stick is MIDDLE, and print RIGHT TURN % + change OUTGOING  [stick goes 180. left motors: 180. right motors: 0] reverse right ESCs 
         print_RightPercentage_onLCD();
         store_XTURNvalues_to_ESC();
       }                                                                                                   
-/*--------------------------------------------------------------------------(MIDDLE)-------------------------------------------------------------------------------------------------------*/
+      /*--------------------------------------------------------------------------(MIDDLE)-------------------------------------------------------------------------------------------------------*/
       resetALLMotors();                                                                                               
     }                                                                                                     
-///////////////////////////////////////////////////////////////////(If Statements: CLIMING)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////(If Statements: CLIMING)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 1 && data.hitting_sw==0 && data.STOP_sw == 0)         //Since we need more control in the Climbing Mode, we can limit how fast the motors can go by changign the "percent" variable
     {
       racing == true;
@@ -136,14 +135,14 @@ void loop() {
       limitESCs_to_Percent(percent);
       print_SpeedPot_onLCD(percent); 
     }
-////////////////////////////////////////////////////////////////////(If Statements: STOP)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////(If Statements: STOP)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if (data.lifting_sw == 0 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 1)      //RESETS Y VALUES to NEUTRAL when stop is pressed
     {
       racing == true;
       stop();
       print_STOPmode_andRefreshLCD();
     }
-///////////////////////////////////////////////////////////////////(If Statements: LIFTING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////(If Statements: LIFTING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //READS+ACTIVATES LEVEL UP/DOWN BUTTONS; SEND BUTTONS TO ROBOT; DISABLES STICKS
     else if (data.lifting_sw == 1 && data.throwing_sw == 0 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0)      //Not Racing/climbing mode so motors are disabled; Activte the level UP/DOWN buttons so we can move the scissor lift DC motor
     {
@@ -151,30 +150,22 @@ void loop() {
       data.levelUP_sw =  digitalRead(levelUP_sw);                      //Read the level buttons
       data.levelDOWN_sw = digitalRead(levelDOWN_sw);
       print_LiftingMode_onLCD();                                       //****map the servo to the DC motor****
-      /*if (data.levelUP_sw == 1){                                     //commenting this for now since i dont have the buttons connected
-        lcd.setCursor (0, 2);                                          //if we r lifting, print that we are
-        lcd.print("      GOING UP      ");
-      }
-      if (data.levelDOWN_sw == 1){
-        lcd.setCursor (0, 2);                         
-        lcd.print("     GOING DOWN     ");
-      }*/
     }
-/////////////////////////////////////////////////////////////////(If Statements: THROWING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+    /////////////////////////////////////////////////////////////////(If Statements: THROWING)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
     else if (data.lifting_sw == 0 && data.throwing_sw == 1 && data.climbing_sw == 0 && data.hitting_sw==0 && data.STOP_sw == 0)     //NEED MROE INFORMATION
     {
       stop();
       print_ThrowingMode_onLCD();
       //****NEED MORE INFORMATION***
     }
-/////////////////////////////////////////////////////////////////(If Statements: HITTING)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////(If Statements: HITTING)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     else if (data.lifting_sw==0 && data.throwing_sw==0 && data.climbing_sw==0 && data.hitting_sw==1 && data.STOP_sw==0)               //NEED MROE INFORMATION
     {
       stop();
       print_HittingMode_onLCD();
       //****NEED MORE INFORMATION****
     }
-/////////////////////////////////////////////////////////////////(#04 REVERSE POLARITY?)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////(#04 REVERSE POLARITY?)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     data.ESC0 = ESC0;                                                 //use reverseESC to change the polarity, true if it need to be reverse, false otherwise
     data.ESC_1 = reverseESC(1,ESC_1, false);
     data.ESC_2 = reverseESC(2,ESC_2, true);                           //the left 2 motor need to be reversed
@@ -182,7 +173,7 @@ void loop() {
     data.ESC_4 = reverseESC(4,ESC_4, false);
     data.ESC_5 = reverseESC(5,ESC_5, true);                           //the right 2 motor need to be reversed
     data.ESC_6 = reverseESC(6,ESC_6, false);
-////////////////////////////////////////////////////////////////(If Statements: Errors)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////(If Statements: Errors)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (racing == true) {
       lcd.setCursor (3, 2);
       lcd.print("              ");
@@ -193,7 +184,7 @@ void loop() {
     else {
       stop();
     }
-///////////////////////////////////////////////////////////////////////(END)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////(END)/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     radio.write( &data, sizeof(controllerData) );                  //send all this data to the reciever where the reciever will then supply the motors with the code to go
     if (!radio.write( &data, sizeof(controllerData) ))             //if it fails to send, reset the data to all neutral pulses
     {
@@ -227,4 +218,662 @@ void loop() {
     printCalib = 0;                                                                       
   }//end of else statement    
   Serial.println();
-}    
+}//End of program
+
+//////////////// FUNCTION: Read all Switches ////////////////
+void readALLSwitches() {
+  for (int i = 0; i < sizeOfArray; i++) {
+    buttonstateArray[i] = digitalRead(switchModeArray[i]);        //read all the switchbuttons
+  }
+  data.left_sw = buttonstateArray[0];                             //put them in the packet so we can send them out to the reciever
+  data.right_sw = buttonstateArray[1];
+  data.lifting_sw =  buttonstateArray[2];
+  data.throwing_sw = buttonstateArray[3];
+  data.climbing_sw = buttonstateArray[4];
+  data.hitting_sw =  buttonstateArray[5];
+  data.STOP_sw = buttonstateArray[6];
+  data.levelUP_sw = buttonstateArray[7];
+  data.levelDOWN_sw = buttonstateArray[8];
+  //data.STOP_sw = !digitalRead(STOP_sw);
+}
+void print_ALLSwitches_onSerialMonitor() {
+  Serial.print("Buttons:");
+  Serial.print(data.lifting_sw); Serial.print(" ");
+  Serial.print(data.throwing_sw); Serial.print(" ");
+  Serial.print(data.climbing_sw); Serial.print(" ");
+  Serial.print(data.hitting_sw); Serial.print(" ");
+  Serial.print(data.STOP_sw); Serial.print("   ");
+  //Serial.print(data.levelUP_sw);Serial.print(" ");
+  //Serial.print(data.levelDOWN_sw);Serial.print("       ");
+}
+
+//////////////// FUNCTION: READ The Speed Potentiometer////////////////
+void read_and_calibrate_speedPot() {
+  speedPot = analogRead(motorSpeed_Pot);
+  if (printCalib == 1) {
+    Serial.print("InitialPot: ");
+    Serial.print(speedPot);
+    Serial.print("  ");
+  }
+  speedPot = map(speedPot, 5, 1020, 0, 100);
+  speedPot = constrain(speedPot, 0, 100);
+}
+
+//////////////// FUNCTION: Read the Uncalibrated JoyStick Values ////////////////
+void readRawJoystickValues() {
+  int left_x = analogRead(leftStick_x);   int right_x = analogRead(rightStick_x);         //read the uncalibrated stick
+  int left_y = analogRead(leftStick_y);   int right_y = analogRead(rightStick_y);
+  int leftStick_sw = digitalRead(leftStick_sw); int rightStick_sw = digitalRead(rightStick_sw);
+  if (printCalib == 1) {
+   Serial.print("    C1 RY: ");     Serial.print(right_y);
+   Serial.print("     ");
+  }
+}
+void store_Yvalues_to_ESC() {
+  ESC0 = defaultStickSpeed;
+  ESC_1 = ESC_Y1;
+  ESC_2 = ESC_Y2;
+  ESC_3 = ESC_Y3;
+  ESC_4 = ESC_Y4;
+  ESC_5 = ESC_Y5;
+  ESC_6 = ESC_Y6;
+}
+void store_XTURNvalues_to_ESC() {
+  ESC0 = defaultStickSpeed_x;
+  ESC_1 = ESC_X1;
+  ESC_2 = ESC_X2;
+  ESC_3 = ESC_X3;
+  ESC_4 = reverseESC(4, ESC_X4);             //"reverseESC()" basically does this: map(ESC_X4, lowest[4],180, 180,lowest[4]); simple
+  ESC_5 = reverseESC(5, ESC_X5);
+  ESC_6 = reverseESC(6, ESC_X6);
+}
+
+//////////////// FUNCTION: Turn JoyStick Values to Servo Values ////////////////
+void turn_sticks_to_servo() {
+  left_x = calibrateJoystick(left_x, 10, 505, 1015, true);      
+  left_y = calibrateJoystick(left_y, 10, 504, 1015, false);     
+  right_x = calibrateJoystick(right_x, 10, 511, 1015, false);
+  right_y = calibrateJoystick(right_y, 10, 532, 1015, true);
+  if (printCalib == 1) {
+    Serial.print("C2 LX: ");     Serial.print(left_x);
+    Serial.print("  ");
+    Serial.print("C2 RY: ");     Serial.print(right_y);
+    Serial.print("     ");
+  }
+}
+int calibrateJoystick(int stick, int low, int middle, int high, bool reverse)
+{
+  if (reverse == true)
+  {
+    stick = map(stick, 0, 1023, 1023, 0);            //Since my right joystick is reverse, i maped the values the right way
+  }
+  stick = stabilizeJoystick(stick, low, middle, high);
+  stick = map2Servo(stick);
+  return (stick);
+}
+int stabilizeJoystick( int stick, int lower, int middle, int upper)
+{
+  stick = constrain(stick, lower, upper);
+  if (stick < middle)
+    stick = map(stick, lower, middle, 0, 512);
+  else
+    stick = map(stick, middle, upper, 512, 1023);
+  return (stick);
+}
+int map2Servo(int calibratedStick)
+{
+  if (calibratedStick < 90)
+    calibratedStick = map(calibratedStick, 5, 512, 0, 90);            //i set it to 5 and not 0 to ensure it will go to 0
+  else
+    calibratedStick = map(calibratedStick, 512, 1020, 90, 180);       //i set it to 1020 and not 1023 to ensure it will go to 180
+  return (calibratedStick);
+}
+int isreverse(int stick, bool reverse)
+{
+  if (reverse == true)
+  {
+    stick = map(stick, 1023, 0, 0, 1023);            //Since my right joystick is reverse, i maped the values the right way
+  }
+  return (stick);
+}
+
+
+//////////////// FUNCTION: ESC to Neutral Positions////////////////
+void calibrate_sticks_to_ESCs() {
+  defaultStick = calib_neutral(0, right_y, 90, 90);            
+  ESC_Y1 = calib_neutral(1, right_y, 90, 90);                 
+  ESC_Y2 = calib_neutral(2, right_y, 92, 98);
+  ESC_Y3 = calib_neutral(3, right_y, 90, 90);
+  ESC_Y4 = calib_neutral(4, right_y, 90, 90);
+  ESC_Y5 = calib_neutral(5, right_y, 93, 101);
+  ESC_Y6 = calib_neutral(6, right_y, 90, 90);
+  defaultStick_x = calib_neutral(0, left_x);
+  ESC_X1 = calib_neutral(1, left_x);
+  ESC_X2 = calib_neutral(2, left_x);
+  ESC_X3 = calib_neutral(3, left_x);
+  ESC_X4 = calib_neutral(4, left_x);
+  ESC_X5 = calib_neutral(5, left_x);
+  ESC_X6 = calib_neutral(6, left_x);
+  if (printCalib == 1){
+    Serial.print("C3 LX1: ");  Serial.print(ESC_X1);
+    Serial.print("  ");
+    Serial.print("C3 RY1: "); Serial.print(ESC_Y1);
+    Serial.print("     ");
+  }
+}
+int calib_neutral(int index, int stick, int lowNeutral, int highNeutral)
+{
+  middle[index] = ((highNeutral - lowNeutral) / 2) + lowNeutral;        
+  //get the low and high neutral position of a specific ESC, and find the middle of the neutral positions
+  //store that middle neutral position to whatever index i choose (this way, all each neutral position of whatever ESC we r currently using will stay in that place we setup using the index#)
+  //store the low and high neutral positions, we will reuse these arrays to print the position of all motors on the LCD:
+  lowN[index] = lowNeutral;                                             
+  hiN[index] = highNeutral;
+  if (stick > middle[index]) {
+    stick = map(stick, 90, 180, middle[index], 180);
+  }
+  if (stick < middle[index])
+    stick = map(stick, 0, 90, 0, middle[index]);
+  return (stick);
+}
+int calib_neutral(int index, int stick)                  //this is just a function i made to do the x axis, since we already found the middle neutral position, it wont make sense to re type the same numbers
+{
+  if (stick > middle[index]) {
+    stick = map(stick, 90, 180, middle[index], 180 );
+  }
+  if (stick < middle[index])
+    stick = map(stick, 0, 90, 0, middle[index]);
+  return (stick);
+}
+
+//////////////// FUNCTION: Limit the ESC Values////////////////
+void limitESCs_to_SpeedPot(){                                          
+  defaultStickSpeed = motorSpeedCalib(0, defaultStick, speedPot);       //Joystick Calibration#3: Calibrate the joystick valeus to the speed potentiometer, so that we can set how fast a motor can go at any given moment
+  ESC_Y1 = motorSpeedCalib(1, ESC_Y1, 16, speedPot);                    //see the parameter description: motorSpeedCalib(index to store the lowest val of 2nd rage, stickESCAxis,lowest value of motor for second neutral range(added this), middle neutral from "calib_neutral(), speedPotentiometer)"
+  ESC_Y2 = motorSpeedCalib(2, ESC_Y2, 16, speedPot);
+  ESC_Y3 = motorSpeedCalib(3, ESC_Y3, 16, speedPot);
+  ESC_Y4 = motorSpeedCalib(4, ESC_Y4, 16, speedPot);
+  ESC_Y5 = motorSpeedCalib(5, ESC_Y5, 16, speedPot);
+  ESC_Y6 = motorSpeedCalib(6, ESC_Y6, 16, speedPot);
+  defaultStickSpeed_x = motorSpeedCalib(0, defaultStick_x, speedPot);   //retrieve the lowest val of the range from the index, and then do the same thing done above
+  ESC_X1 = motorSpeedCalib(1, ESC_X1, speedPot);
+  ESC_X2 = motorSpeedCalib(2, ESC_X2, speedPot);
+  ESC_X3 = motorSpeedCalib(3, ESC_X3, speedPot);
+  ESC_X4 = motorSpeedCalib(4, ESC_X4, speedPot);
+  ESC_X5 = motorSpeedCalib(5, ESC_X5, speedPot);
+  ESC_X6 = motorSpeedCalib(6, ESC_X6, speedPot);
+}
+void limitESCs_to_Percent(int percent){
+  ESC0 = motorSpeedCalib2(0, percent, ESC0);
+  ESC_1 = motorSpeedCalib2(1, percent, ESC_1);
+  ESC_2 = motorSpeedCalib2(2, percent, ESC_2);
+  ESC_3 = motorSpeedCalib2(3, percent, ESC_3);
+  ESC_4 = motorSpeedCalib2(4, percent, ESC_4);
+  ESC_5 = motorSpeedCalib2(5, percent, ESC_5);
+  ESC_6 = motorSpeedCalib2(6, percent, ESC_6);
+}
+int motorSpeedCalib(int index, int stick, int lowestVal, int speedPot){
+    lowest[index] = lowestVal;                                                      //here we will store the lowest positions into the array so we can use this arry to do the X positions (function below) and can also use this array when we need to reverse the ESCs in "reverseESC()" function
+    int speedPotForward = map(speedPot, 0, 100, hiN[index], 180);
+    int speedPotBack = map(speedPot, 0, 100, lowN[index], lowestVal);
+    if (stick > middle[index]){
+      stick = map(stick, middle[index],180, hiN[index],speedPotForward); 
+    }
+    if (stick < middle[index]){
+      stick = map(stick, 0, middle[index], speedPotBack, lowN[index]);                         //had to add the "lowestVal paramater in this function because during testing i noticed that in addition to the neutral position near 90, some motors also have a second neutral position near 0 (the 2 motors i tests have the 2nd neutral from 0 to 15)
+    } 
+    return(stick);
+}
+int motorSpeedCalib(int index, int stick, int speedPot){
+    int lowestVal = lowest[index];
+    int speedPotForward = map(speedPot, 0, 100, hiN[index], 180);
+    int speedPotBack = map(speedPot, 0, 100, lowN[index], lowestVal);
+    if (stick > middle[index]){
+      stick = map(stick, middle[index],180, hiN[index],speedPotForward); 
+    }
+    if (stick < middle[index]){
+      stick = map(stick, 0, middle[index], speedPotBack, lowN[index]);                         //had to add the "lowestVal paramater in this function because during testing i noticed that in addition to the neutral position near 90, some motors also have a second neutral position near 0 (the 2 motors i tests have the 2nd neutral from 0 to 15)
+    } 
+    return(stick);
+}
+int motorSpeedCalib2(int index, float percentage, int stick){   
+    int lowestVal = lowest[index];
+    int MAXSpeed_FORWARD = ((180-hiN[index]) * (percentage/100))+ hiN[index];                   //basically tke the percentage value and change up the max and min we can go
+    int MAXSpeed_BACK = (lowN[index] - ((lowN[index] - lowestVal)*(percentage/100)));         
+    if (stick > middle[index]){
+      stick = map(stick, middle[index],180, hiN[index],MAXSpeed_FORWARD); 
+    }
+    if (stick < middle[index]){
+      stick = map(stick, lowestVal,middle[index], MAXSpeed_BACK,lowN[index]);         
+    }
+    return(stick);
+}
+
+//////////////// FUNCTION: Reverse the ESCs////////////////
+int reverseESC(int index, int stick, bool reverse){                        //just a quick and easy function to reverse the ESC positions. 
+  if (reverse == true){
+    if (stick > middle[index]){
+      stick = map(stick, middle[index],180, middle[index], lowest[index]);
+    }
+    else{
+      stick = map(stick, lowest[index], middle[index], 180, middle[index]);
+    }  
+  }
+  return(stick); 
+}
+int reverseESC(int index, int stick){                        //just a quick and easy function to reverse the ESC positions. 
+  if (stick > middle[index]){
+    stick = map(stick, middle[index],180, middle[index], lowest[index]);
+  }
+  else{
+    stick = map(stick, lowest[index], middle[index], 180, middle[index]);
+  }  
+  return(stick); 
+}
+
+
+
+//////////////// FUNCTION: Resetting & Stoping Motors////////////////
+void resetALLMotors() 
+{
+  if (defaultStick >= 87 && defaultStick <= 93) {                                       //MIDDLE BOTH: reset data for whichever stick is middle
+    reset_y();                                                                          //If RIGHT stick is MIDDLE, reset Y data to neutral
+  }
+  if (defaultStick_x >= 87 && defaultStick_x <= 93) {                                   //If LEFT stick is MIDDLE, reset X data to neutral
+    reset_x();
+  }
+  if (defaultStick >= 87 && defaultStick <= 93 && defaultStick_x >= 87 && defaultStick_x <= 93) {      //If the LEFT/RIGHT stick is MIDDLE, print that its still
+    lcd.setCursor (4, 3);
+    lcd.print("    STILL       ");
+    stop();
+  }
+}
+void stop()
+{                                                //feed the motors with the neutral pulses
+  reset_y();
+  reset_y();
+  data.ESC0 = middle[0];
+  data.ESC_1 = middle[1];           
+  data.ESC_2 = middle[2];
+  data.ESC_3 = middle[3];
+  data.ESC_4 = middle[4];
+  data.ESC_5 = middle[5];
+  data.ESC_6 = middle[6];
+  ESC0 = middle[0];
+  ESC_1 = middle[1];           
+  ESC_2 = middle[2];
+  ESC_3 = middle[3];
+  ESC_4 = middle[4];
+  ESC_5 = middle[5];
+  ESC_6 = middle[6];
+}
+void reset_y(){
+  ESC_Y1 = middle[1];           //reset x and y functions are no longer need because of the stop() function
+  ESC_Y2 = middle[2];
+  ESC_Y3 = middle[3];
+  ESC_Y4 = middle[4];
+  ESC_Y5 = middle[5];
+  ESC_Y6 = middle[6];
+}
+void reset_x(){    
+  ESC_X1 = middle[1];           
+  ESC_X2 = middle[2];
+  ESC_X3 = middle[3];
+  ESC_X4 = middle[4];
+  ESC_X5 = middle[5];
+  ESC_X6 = middle[6];
+}
+
+
+//////////////// FUNCTION: LCD Printign (not Important)////////////////
+void print_RacingOrClimbingModes_onLCD() {
+  if (data.climbing_sw == 0) {
+    lcd.setCursor (3, 0);
+    lcd.print(" Racing MODE ");
+  }
+  if (data.climbing_sw == 1) {
+    lcd.setCursor (3, 0);
+    lcd.print("  Climb MODE  ");
+  }
+}
+void print_LiftingMode_onLCD() {
+  lcd.setCursor (0, 0);
+  lcd.print("    Lifting MODE    ");
+  lcd.setCursor (0, 1);                               //Print "Level Buttons Activated"
+  lcd.print("Level Buttons ACTIVE");
+}
+void print_ThrowingMode_onLCD() {
+  lcd.setCursor (0, 0);
+  lcd.print("   Throwing MODE    ");
+}
+void print_HittingMode_onLCD() {
+  lcd.setCursor (0, 0);
+  lcd.print("    Hitting MODE    ");
+}
+
+void print_ForwardPercentage_onLCD() {
+  lcd.setCursor (16, 3);
+  lcd.print("%   ");
+  int forwardStick = map(defaultStickSpeed, 90, 180, 0, 100);
+  lcd.setCursor (4, 3);
+  lcd.print("FORWARD: ");
+  lcd.setCursor (13, 3);
+  lcd.print(forwardStick);
+  if (forwardStick <= 9) {
+    lcd.setCursor (14, 3);
+    lcd.print("  ");
+  }
+  if (forwardStick >= 100) {
+    lcd.setCursor (15, 3);
+    lcd.print("0");
+  }
+  else {
+    lcd.setCursor (15, 3);
+    lcd.print(" ");
+  }
+}
+void print_BackPercentage_onLCD() {
+  lcd.setCursor (14, 3);
+  lcd.print("%   ");
+  int backwardStick = map(defaultStickSpeed, 90, 0, 0, 100);
+  lcd.setCursor (2, 3);
+  lcd.print("   BACK:  ");
+  lcd.setCursor (11, 3);
+  lcd.print(backwardStick);
+  if (backwardStick <= 9) {
+    lcd.setCursor (12, 3);
+    lcd.print(" ");
+  }
+  if (backwardStick >= 100) {
+    lcd.setCursor (13, 3);
+    lcd.print("0");
+  }
+  else {
+    lcd.setCursor (13, 3);
+    lcd.print(" ");
+  }
+}
+void print_LeftPercentage_onLCD() {
+  lcd.setCursor (16, 3);
+  lcd.print("%   ");
+  int backwardStick_x = map(defaultStickSpeed_x, 90, 0, 0, 100);
+  lcd.setCursor (4, 3);
+  lcd.print("   LEFT:  ");
+  lcd.setCursor (13, 3);
+  lcd.print(backwardStick_x);
+  if (backwardStick_x <= 9) {
+    lcd.setCursor (14, 3);
+    lcd.print(" ");
+  }
+  else if (backwardStick_x >= 100) {
+    lcd.setCursor (15, 3);
+    lcd.print("0");
+  }
+  else {
+    lcd.setCursor (15, 3);
+    lcd.print(" ");
+  }
+}
+void print_RightPercentage_onLCD() {
+  lcd.setCursor (16, 3);
+  lcd.print("%   ");
+  int forwardStick_x = map(defaultStickSpeed_x, 90, 180, 0, 100);
+  lcd.setCursor (4, 3);
+  lcd.print("  RIGHT:  ");
+  lcd.setCursor (13, 3);
+  lcd.print(forwardStick_x);
+  if (forwardStick_x <= 9) {
+    lcd.setCursor (14, 3);
+    lcd.print(" ");
+  }
+  else if (forwardStick_x >= 100) {
+    lcd.setCursor (15, 3);
+    lcd.print("0");
+  }
+  else {
+    lcd.setCursor (15, 3);
+    lcd.print(" ");
+  }
+}
+
+////////
+void print_SpeedPot_onLCD(int speedPot) {
+  if (data.lifting_sw == 0){
+    //If the lifting mode switch isnt pressed, printing the speed potentiometer percentage on the LCD is allowed
+ 
+    lcd.setCursor (3, 1);
+    lcd.print(" Speed: ");
+    lcd.setCursor (14, 1);
+    lcd.print("%  ");
+    lcd.setCursor (11, 1);
+    lcd.print(speedPot);
+    if (speedPot <= 9) {
+      lcd.setCursor (12, 1);
+      lcd.print(" ");
+    }
+    if (speedPot >= 100) {
+      lcd.setCursor (13, 1);
+      lcd.print("0");
+    }
+    else {
+      lcd.setCursor (13, 1);
+      lcd.print(" ");
+    }
+  }
+}/*end of printing the Speed Pot percentage*/
+void print_defaultStick_onLCD()  { 
+  //print the default stick values ("defaultStickSpeed" and "defaultStickSpeed_x" that is going to the reciever 'data.ESC0') 
+  //this is just a test to see that the sticks are stable
+
+  lcd.setCursor(0, 3);
+  lcd.print(data.ESC0);
+  lcd.setCursor (3, 3);
+  lcd.print(" ");
+  if (data.ESC0 >= 100) {
+    lcd.setCursor(2, 3);
+    lcd.print("0");
+  }
+  else if (data.ESC0 <= 9) {
+    lcd.setCursor(1, 3);
+    lcd.print("  ");
+  }
+  else {
+    lcd.setCursor(2, 3);
+    lcd.print(" ");
+  }
+}/*end of function*/
+void clearMotors_LCD() {                                            
+  //this function just cleans the neutral postions if we r not racing
+  lcd.setCursor (0, 0);       //left1
+  lcd.print("   ");
+  lcd.setCursor (17, 0);      //right1
+  lcd.print("   ");
+  if (data.lifting_sw == 0) {                                       
+    //the lifting switch take sup the second line, so the positions are only cleared if the lifting switch isnt pressed
+    lcd.setCursor (0, 1);       //left2
+    lcd.print("   ");
+    lcd.setCursor (17, 1);      //right2
+    lcd.print("   ");
+  }
+  lcd.setCursor (0, 2);       //left3
+  lcd.print("   ");
+  lcd.setCursor (17, 2);      //right3
+  lcd.print("   ");
+}/*end of function*/
+void outgoing_leftMotors_LCD() {
+  /*-----------------------------------------------------------------------left 1*/
+  lcd.setCursor(0, 0);
+  lcd.print(data.ESC_1);
+  lcd.setCursor (3, 0);
+  lcd.print(" ");
+  if ((lowN[1] <= data.ESC_1) && (data.ESC_1 <= hiN[1])) {
+    lcd.setCursor(0, 0);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_1 >= 100) {
+    lcd.setCursor(2, 0);
+    lcd.print("0");
+  }
+  else if (data.ESC_1 <= 9) {
+    lcd.setCursor(1, 0);
+    lcd.print("  ");
+  }
+  else if ((9 < data.ESC_1) && (data.ESC_1 < 100)) {
+    lcd.setCursor(2, 0);
+    lcd.print(" ");
+  }
+  /*-----------------------------------------------------------------------left 2*/
+  lcd.setCursor(0, 1);
+  lcd.print(data.ESC_2);
+  lcd.setCursor (3, 1);
+  lcd.print(" ");
+  if ((lowN[2] <= data.ESC_2) && (data.ESC_2 <= hiN[2])) {
+    lcd.setCursor(0, 1);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_2 >= 100) {
+    lcd.setCursor(2, 1);
+    lcd.print("0");
+  }
+  else if (data.ESC_2 <= 9) {
+    lcd.setCursor(1, 1);
+    lcd.print("  ");
+  }
+  else if (9 < data.ESC_2 < 100) {
+    lcd.setCursor(2, 1);
+    lcd.print(" ");
+  }
+  /*-----------------------------------------------------------------------left 3*/
+  lcd.setCursor(0, 2);
+  lcd.print(data.ESC_3);
+  lcd.setCursor (3, 2);
+  lcd.print(" ");
+  if ((lowN[3] <= data.ESC_3) && (data.ESC_3 <= hiN[3])) {
+    lcd.setCursor(0, 2);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_3 >= 100) {
+    lcd.setCursor(2, 2);
+    lcd.print("0");
+  }
+  else if (data.ESC_3 <= 9) {
+    lcd.setCursor(1, 2);
+    lcd.print("  ");
+  }
+  else if (9 < data.ESC_3 < 100) {
+    lcd.setCursor(2, 2);
+    lcd.print(" ");
+  }
+}//end of function
+
+void outgoing_rightMotors_LCD() {
+  /*-----------------------------------------------------------------------right 1*/
+  lcd.setCursor(17, 0);
+  lcd.print(data.ESC_4);
+  lcd.setCursor (16, 0);
+  lcd.print(" ");
+  if ((lowN[4] <= data.ESC_4) && (data.ESC_4 <= hiN[4])) {
+    lcd.setCursor(17, 0);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_4 >= 100) {
+    lcd.setCursor(19, 0);
+    lcd.print("0");
+  }
+  else if (data.ESC_4 <= 9) {
+    lcd.setCursor(18, 0);
+    lcd.print("  ");
+  }
+  else if ((9 < data.ESC_4) && (data.ESC_4 < 100)) {
+    lcd.setCursor(19, 0);
+    lcd.print(" ");
+  }
+  /*-----------------------------------------------------------------------right 2*/
+  lcd.setCursor(17, 1);
+  lcd.print(data.ESC_5);
+  lcd.setCursor (16, 1);
+  lcd.print(" ");
+  if ((lowN[5] <= data.ESC_5) && (data.ESC_5 <= hiN[5])) {
+    lcd.setCursor(17, 1);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_5 >= 100) {
+    lcd.setCursor(19, 1);
+    lcd.print("0");
+  }
+  else if (data.ESC_5 <= 9) {
+    lcd.setCursor(18, 1);
+    lcd.print("  ");
+  }
+  else if ((9 < data.ESC_5) && (data.ESC_5 < 100)) {
+    lcd.setCursor(19, 1);
+    lcd.print(" ");
+  }
+  /*-----------------------------------------------------------------------right 3*/
+  lcd.setCursor(17, 2);
+  lcd.print(data.ESC_6);
+  lcd.setCursor (16, 2);
+  lcd.print(" ");
+  if ((lowN[6] <= data.ESC_6) && (data.ESC_6 <= hiN[6])) {
+    lcd.setCursor(17, 2);
+    lcd.print("NEU");
+  }
+  else if (data.ESC_6 >= 100) {
+    lcd.setCursor(19, 2);
+    lcd.print("0");
+  }
+  else if (data.ESC_6 <= 9) {
+    lcd.setCursor(18, 2);
+    lcd.print("  ");
+  }
+  else if ((9 < data.ESC_6) && (data.ESC_6 < 100)) {
+    lcd.setCursor(19, 2);
+    lcd.print(" ");
+  }
+}//end of function
+
+//////////////// FUNCTION: More Printing (not Important)////////////////
+void print_TestingStuff_onSerialMonitor() {
+  Serial.print("           ");
+  Serial.print("testLEFTx: ");       Serial.print(testStick_LeftX);
+  Serial.print("   testLEFTy: ");     Serial.print(testStick_LeftY);
+  Serial.print("      ");
+  Serial.print("testRIGHTx: ");        Serial.print(testStick_RightX);
+  Serial.print("   testRIGHTy:");     Serial.print(testStick_RightY);
+  Serial.print("               ");
+  Serial.print("{InitialSpeedPot: ");
+  Serial.print(speedPotTest);
+  Serial.print("}  {*TEST RUNNING*}");
+}
+void print_ALL_OUTGOINGS_onSerialMonitor() {
+  Serial.print("*OUTGOING 1: "); Serial.print(data.ESC_1); Serial.print("    ");
+  Serial.print("*OUTGOING 2: "); Serial.print(data.ESC_2); Serial.print("    ");
+  Serial.print("*OUTGOING 3: "); Serial.print(data.ESC_3); Serial.print("    ");
+  Serial.print("*OUTGOING 4: "); Serial.print(data.ESC_4); Serial.print("    ");
+  Serial.print("*OUTGOING 5: "); Serial.print(data.ESC_5); Serial.print("    ");
+  Serial.print("*OUTGOING 6: "); Serial.print(data.ESC_6); Serial.print("    ");
+}
+void print_STOPmode_andRefreshLCD() {
+  Serial.print("      STOP ACTIVE      ");
+  lcd.setCursor (3, 0);
+  lcd.print(" STOP MODE ");
+  Serial.print("count: ");                                                               
+  //somethings the LCD malfunctions and prints random symbols, so i made it so that if we pressed the STOp button 5 times, it will rest the lcd
+  Serial.print(counter);
+  Serial.print("   ");
+  counter++;
+  if (counter >= 5) {
+    lcd.clear();
+    delay(20);
+    Serial.print("   LCD CLEARED   ");
+    counter = 0;
+  }
+}
+
+
+
+
+
+
+
+
