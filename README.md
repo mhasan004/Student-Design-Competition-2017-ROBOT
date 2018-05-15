@@ -4,11 +4,8 @@ This is the robot I have programmed for the SDC 2016-2017 robotic competition. I
 The controller has four switches that control each of the five modes. The right joystick (y axis) lets the robot to move forward and backward. The left joystick (x axis) lets the robot to turn left and right. The controller and the robot is explained here: https://mahmudul-hasan.wixsite.com/home/sdc-2017
 
 # Files:
-
 **ALL_Transmitter_Master.ino** : This is the Arduino code for the controller. This code computes all of the data need to operate the robot. 
-
 **ALL_Reciever.ino** : This is the Arduino code for the robot. 
-
 **Description Files** : This file contains the flowcharts ofmy code. It describes how the every variable changes. For example, The y-axis of the right analog stick maps to the forward/backward speed of each brushless motor. The x-axis of the left analog stick maps to the left/right turn speed of each of the six brushless motor. The flow charts describes what function changes what variable. 
 
 # Calibrating the Brushless Motors:
