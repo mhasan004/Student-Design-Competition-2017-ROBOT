@@ -23,6 +23,7 @@ Each motor has its own natural range. The neutral range is a range of pulses whe
 The next difficult step was to figure out what the 100% forward RPM value of each motor. We noticed that each motor's maximum speed was either slower or faster than another motor. In other words, the motors did not run at the same speed, which caused overheating issues on two of the six brushless motors. After a few minutes, the motors became too hot and would jitter. To combat this issue, we have used a speed tachometer to record the maximum forward and backward speed of each motor. We then set the maximum forward speed of all motor to the lowest forward speed found and maximum backward speed to the highest backward speed that was found. This way, all motors will run at near the same maximum forward and backward speeds. Once again, we have mapped this new range to the joysticks.
 
 **3) Speed Limiter Using a Sliding Potentiometer:**
+
 I made a actuator speed controller using a sliding potentiometer. The potentiometer limits how fast I can go forward and backward for all motors on the robot. For example, if the slider is all the way to the down, all motors will run 0% forwards and backwards (this is the midpoint neutral position - or the stop pulse - for each motor). If the slider is at the top, all motors will run 100% forwards and backwards. For the climbing mode, we needed the motors to go a bit more slowly sometimes, so this function was useful to control the sped at will. 
 
 
