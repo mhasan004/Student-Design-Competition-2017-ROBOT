@@ -34,14 +34,11 @@ int *buttonstateArray = new int [sizeOfArray];
 int counter = 0;                           
 
 //Global varibles for functions inside loop
-bool printCalib; bool racing;                                                         
-int *ESC = new int[7];  
-int *ESC_X = new int[7];  
-int *ESC_Y = new int[7];  
-unsigned long timeLoopBegin = 0; 
-unsigned long timeLoopEnd = 0;
-//store neutral positions of all motors ["calib_neutral()"]
 const int size = 7;                 //6 motors that starts from index 1
+bool printCalib; bool racing;   
+int *ESC = new int[size];           //Final Motor position to be sent out
+int *ESC_X = new int[size];         //X axis motor position
+int *ESC_Y = new int[size];         //Y axis motor position 
 int *middle = new int[size];        //middle neutral position
 int *lowN = new int[size];          //lowest range
 int *hiN = new int[size];           //highest range
