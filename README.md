@@ -1,4 +1,5 @@
 # SDC 2016-2017 Robot Description
+# What Can It Do?
 This is the robot I have programmed for the SDC 2016-2017 robotic competition. It can climb 3 sets of stairs, sprint forward and back using six brushless motors 10 meters in 20 seconds, lift up a 15 lb object up to 30 inches relative to the ground in about 40 seconds, throw a golf ball 62 inches off the ground, and it can hit a golf ball 29 feet.
 
 The controller has four switches that control each of the five modes. The right joystick (y axis) lets the robot to move forward and backward. The left joystick (x axis) lets the robot to turn left and right. The controller and the robot are explained here: https://mahmudul-hasan.wixsite.com/home/sdc-2017
