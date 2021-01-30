@@ -1,0 +1,66 @@
+----------------------------------------------------Some basic stuff to know--------------------------------------------------------
+1.) "//" is a symbol that mean its a comment, whatever you write after the "//" on that line, the computer will IGNORE
+2.) "/* and */" is a block comment which will make everything inside the "/*" and "*/" a comment:
+        example:
+        
+        x=1
+        /* blablalba fknkej kdfjdngjklecjke 
+        werhwefhghnhnwehmfxl blablablablaaaaa */  
+        y=3
+                      
+       ^all that stuff is ignored, and computer only read "x=1' and "y=3". we will use he block comment function when
+       we need to explain a complex process, this entire file could be placed in block comments
+       
+WE WILL USE THESE TWO ALOOOOT so that everyone will know why u did what you did (look at the main code i wrote for example)
+
+3.) in Arduino language you MUST put ";" after every command, its to end the line and get to the next line.
+    for some stuff like functions, you dont put them.
+    
+    
+For the purposes of these example, i didnt put any ; and i made everything a comment so you can read them
+
+-------------------------------------TWO "MUST HAVE" SECTIONS OF ANY PROGRAMING CODE IN ARDUINO------------------------------
+
+Setup section: "void setup()" function will only run once:
+void setup(){
+    //this pin will only recieve stuff
+    //this pin will only give stuff
+    //bla bla bla
+    }
+
+
+Main Code section: "void loop()" basically means "do this over and over" like a loop. Hence the "loop" in "void loop()"
+void loop(){
+    //if this heppens, do this
+    //then do that
+    //and that
+    }
+    
+-----------------------------------------MAKING YOUR OWN FUNCTION------------------------------------------------------------------
+Once cool thing we can do i make our own fuctions. (each person will have their own function to do)
+
+the function you MADE will be at the very bottom of the code (it will NOT be INSIDE "void loop()")
+
+void climbStairs(){
+if i move the controller's stick,
+the motors will do this: blablabla
+}
+
+-----------------------------------------APPLYING YOUR MADEUP FUNCTION------------------------------------------------------------
+
+void setup(){
+//this pin will recieve stuff;
+//the motor will do stuff;
+}
+
+void loop(){
+//if i move the controller stick this way and flick this button, do this:
+climbStairs();                                  <--------------ur made up function in the code
+}
+
+void climbStairs(){                              <----------------------ur made up function
+//if i move the controller's stick,
+//the motors will do this: blablabla;
+//the motors will do this: blablabla;
+//the motors will do this: blablabla;
+}

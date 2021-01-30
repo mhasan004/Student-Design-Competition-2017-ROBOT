@@ -1,0 +1,48 @@
+// PROJECT: When I push switch1, Led1 blinks 
+//          When I push switch2, led2 blinds 
+// Switch 1,2: Pins 3,5               LED 1,2: Pins 13,11
+
+
+const int led1 = 13;
+const int led2 = 11;
+const int switch1 = 3;
+const int switch2 = 5;
+int state1=0;
+int state2=0;
+
+void setup(){
+  pinMode (13, OUTPUT); 
+  pinMode (11, OUTPUT);
+  
+  Serial.begin(19600);
+  pinMode (3, INPUT);
+  Serial.begin(19600);
+  pinMode (5, INPUT); 
+}
+
+void loop(){
+  int state1 = digitalRead(switch1);
+  Serial.println(state1);
+     delay(1);
+  int state2 = digitalRead(switch2);
+  Serial.println (state2);
+     delay(1);
+
+//led1 lights up as switch is pressed
+ if (state1 == 1){
+  digitalWrite (led1, HIGH);       //notice there are NO DELAY function, meaning that it will be ON as long as you hold the button
+  digitalWrite (led2, LOW);
+ }
+
+//led2 lights up as swithc is pressed
+ if (state2 == 1){
+  digitalWrite (led2, HIGH);  
+  digitalWrite (led1, LOW);
+ }
+
+ //default no button pressed = all low
+ else{                         
+  digitalWrite (led1, LOW);    
+  digitalWrite (led2, LOW); 
+ }
+}
